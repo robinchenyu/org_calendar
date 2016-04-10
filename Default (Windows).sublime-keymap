@@ -1,0 +1,9 @@
+[
+	  /* Orgmode */
+    { "keys": ["tab"], "command": "orgagd_jump", "context":
+      [{ "key": "selector", "operator": "equal", "operand": "source.orgagd" }]
+    },
+    { "keys": ["ctrl+shift+m"], "command": "org_agd_view", "context":
+      [{ "key": "selector", "operator": "equal", "operand": "text.orgmode" }]
+    },
+]

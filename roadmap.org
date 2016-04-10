@@ -1,0 +1,7 @@
+* TODO org agenda impl features
+** DONE already impl [5/5]
+  - [X] get timed headlines
+  - [X] add files links
+  - [X] add quick jump to file
+  - [X] add org gtd files
+  - [X] add theme

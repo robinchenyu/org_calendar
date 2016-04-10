@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "OrgMode Agenda: Current File",
+        "command": "org_agd_view"
+    },
+    {
+        "caption": "OrgMode Agenda: Org Files",
+        "command": "org_agd_files"
+    }
+]

@@ -1,0 +1,9 @@
+{
+    // Global
+    "org_files": [
+    "e:/msys32/home/chenyu/blogs/work.org",
+    "C:/Users/chenyu/AppData/Roaming/Sublime Text 3/Packages/orgmode/messages/install.org"
+    ],
+    // display Calendar view in split view, or in a new view
+    "split_mode": true
+}

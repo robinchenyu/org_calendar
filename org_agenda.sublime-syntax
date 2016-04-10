@@ -1,0 +1,24 @@
+%YAML1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: orgagd
+file_extensions:
+  - orgagd
+scope: source.orgagd
+contexts:
+  main:
+    # filename and line location
+    - match: '(^[^:]+:\d+:)'
+      scope: constant.language.fileloc.orgagd
+
+    # Datetime 
+    - match: '(\d{4,4}-\d{2,2}-\d{2,2} \d{2,2}:\d{2,2}:\d{2,2})'
+      scope: entity.name.class.datetime.orgagd
+
+    - match: '(DONE)'
+      scope: storage.type.orgagd
+
+    - match: '(TODO)'
+      scope: entity.name.tag.orgagd
+
+      
