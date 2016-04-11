@@ -6,5 +6,19 @@
     {
         "caption": "OrgMode Agenda: Org Files",
         "command": "org_agd_files"
-    }
+    },
+    {
+        "caption": "Preferences: org_agenda Settings – Default",
+        "command": "open_file",
+        "args": {
+            "file": "${packages}/org_agenda/org_agenda.sublime-settings"
+        }
+    },
+    {
+        "caption": "Preferences: org_agenda Settings – User",
+        "command": "open_file",
+        "args": {
+            "file": "${packages}/User/org_agenda.sublime-settings"
+        }
+    },
 ]
