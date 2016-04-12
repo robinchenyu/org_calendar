@@ -183,3 +183,78 @@ class OrgAgdFilesCommand(OrgAgdViewCommand):
         agenda_view.set_read_only(True)
         agenda_view.set_scratch(True)
         agenda_view.set_name(AGENDA_VIEW)
+
+class OrgAgdUpdateCommand(sublime_plugin.TextCommand):
+    """docstring for OrgAgdUpdateCommand"""
+    def __init__(self, *args, **kwargs):
+        super(OrgAgdUpdateCommand, self).__init__(*args, **kwargs)
+        self.settings = sublime.load_settings('org_agenda.sublime-settings')
+
+        # whether display the agenda view in split mode
+        self.split_mode = self.settings.get('split_mode', True)
+        self.org_files = self.settings.get('org_files', [])
+
+    def erase_view(self, edit):
+        view = self.view
+        view.set_read_only(False)
+        rgn = sublime.Region(0, view.size())
+        view.erase(edit, rgn)
+
+        
+    def run(self, edit):
+        print('erase buffer')
+        cur_rgn = self.view.sel()[0]
+        self.erase_view(edit)
+        agenda_view = self.view
+
+        headlines = []
+        now = datetime.datetime.now()
+
+        headlines.append([now, ''.join([now.strftime('%Y-%m-%d %H:%M'), '-'*80, "\n"]), None])
+        cur_wnd = self.view.window()
+        for file in self.org_files:
+            v = cur_wnd.open_file(file)
+            filename = v.file_name()
+            filename = os.path.basename(filename)
+            print("open file: %s %s %d" % (file, v.file_name(), v.size()))
+            # while v.size() == 0:
+            #     time.sleep(1)
+        # for file in self.org_files:
+        #     v = cur_wnd.active_view()
+            for rgn in v.find_by_selector('orgmode.headline'):
+                # print("headline: %r" % self.view.substr(rgn))
+                hl = ''.join([v.substr(l) for l in v.lines(rgn)]) + '\n\n'
+                row, col = v.rowcol(rgn.begin())
+                datetime_regx = r'(\d\d\d\d-\d\d-\d\d .{3,3}( \d\d:\d\d)?)'
+                m = re.search(datetime_regx, hl)
+                if m:
+                    dt1 = get_datetime(m.group(1))
+                    print("date: %s" % dt1)
+                    headlines.append([dt1, hl.strip(' *'), (filename, row, col)])
+                    # agenda_view.insert(edit, agenda_view.size(), hl)
+                # else:
+                    # agenda_view.insert(edit, agenda_view.size(), "no time: " + hl)
+        agenda_view.set_read_only(False)
+        # agenda_view.erase(edit, sublime.Region(0, agenda_view.size()))
+        agenda_view.insert(edit, 0, "Org Mode Agenda\n\n")
+
+        cur_wnd.focus_view(agenda_view)
+
+        print("update display ")
+        for line in sorted(headlines, key=lambda x: x[0]):
+            f, r, c = "", 0, 0
+            if line[2]:
+                f, r, c = line[2]
+            else:
+                agenda_view.insert(edit, agenda_view.size(), "now => %s" % (line[1]))
+                continue
+
+            if is_within_week(line[0], now):
+                agenda_view.insert(edit, agenda_view.size(), "%s:%d: => %s" % (f, r+1, line[1]))
+            else:
+                agenda_view.insert(edit, agenda_view.size(), "%s:%d: %s => %s" % (f, r+1, line[0], line[1]))
+        agenda_view.set_read_only(True)
+        agenda_view.set_scratch(True)
+        agenda_view.set_name(AGENDA_VIEW)
+        agenda_view.sel().add(cur_rgn)
+        agenda_view.show(cur_rgn)

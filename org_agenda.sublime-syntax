@@ -21,4 +21,7 @@ contexts:
     - match: '(TODO)'
       scope: entity.name.tag.orgagd
 
+    - match: '(DOING)'
+      scope: markup.inserted.orgagd
+
       
