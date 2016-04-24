@@ -19,3 +19,5 @@ To set org agenda files, open Preferences --> Package Settings --> org_agenda --
     "path/to/todo.org"
     ],
 ```
+
+Using `g` in Agenda view could reread the org files and update the files, Using `tab` could jump to the curresponding file and line of current task.

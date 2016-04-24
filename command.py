@@ -256,5 +256,8 @@ class OrgAgdUpdateCommand(sublime_plugin.TextCommand):
         agenda_view.set_read_only(True)
         agenda_view.set_scratch(True)
         agenda_view.set_name(AGENDA_VIEW)
+
+        self.view.sel().clear()
         agenda_view.sel().add(cur_rgn)
         agenda_view.show(cur_rgn)
+        agenda_view.show_at_center(cur_rgn)
